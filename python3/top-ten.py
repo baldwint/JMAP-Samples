@@ -47,7 +47,7 @@ get_res = client.make_jmap_call(
                 "Email/get",
                 {
                     "accountId": account_id,
-                    "properties": ["id", "subject", "receivedAt"],
+                    "properties": ["id", "from", "subject", "receivedAt"],
                     "#ids": {"resultOf": "a", "name": "Email/query", "path": "/ids/*"},
                 },
                 "b",
@@ -57,4 +57,5 @@ get_res = client.make_jmap_call(
 )
 
 for email in get_res["methodResponses"][1][1]["list"]:
-    print("{} - {}".format(email["receivedAt"], email["subject"]))
+    sender, = email["from"]
+    print(" - ".join([email["receivedAt"], sender["name"], email["subject"]]))
